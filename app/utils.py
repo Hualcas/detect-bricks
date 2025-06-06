@@ -9,6 +9,8 @@ from ultralytics import YOLO  # ✅ Usamos YOLOv8
 
 # ---------------------- Modelo YOLOv5 -----------------------
 
+modelo = None  # 🔁 Se cargará bajo demanda
+
 # Descargar el modelo desde Google Drive si no existe
 def descargar_modelo():
     modelo_path = "app/best50e1.pt"
@@ -25,12 +27,13 @@ def cargar_modelo():
     modelo = YOLO(modelo_path)  # ✅ Carga directa con ultralytics
     return modelo
 
-# Cargar modelo global
-modelo = cargar_modelo()
-
 # ---------------------- Procesamiento de imagen -----------------------
 
 def procesar_imagen(frame_array):
+    global modelo
+    if modelo is None:
+        modelo = cargar_modelo()  # ✅ Solo se carga una vez cuando se necesita
+
     img = Image.fromarray(frame_array).convert('RGB')
     results = modelo.predict(img, verbose=False)  # ✅ Usamos .predict()
     predicciones = []
