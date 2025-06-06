@@ -1,10 +1,10 @@
-Flask==2.2.5
+Flask
 ultralytics
 flask-login
 flask-bcrypt
 flask-mongoengine
 gunicorn
-torch==1.13.1
+torch
 numpy
 opencv-python-headless
 Pillow
