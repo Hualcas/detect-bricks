@@ -180,6 +180,17 @@
         document.getElementById('finalizar').disabled = true;
     });*/
 
-    window.onload = listarCamaras;
+    /*window.onload = listarCamaras;*/
+    window.onload = async () => {
+    try {
+        // 🚨 Forzar permiso para cámara antes de enumerar
+        await navigator.mediaDevices.getUserMedia({ video: true });
+        await listarCamaras();
+    } catch (err) {
+        alert("❌ No se puede acceder a la cámara. Por favor acepta los permisos.");
+        console.error("Permiso denegado o error:", err);
+    }
+};
+
 </script>
 {% endblock %}
