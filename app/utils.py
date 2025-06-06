@@ -14,7 +14,7 @@ def descargar_modelo():
     modelo_path = "app/best50e1.pt"
     if not os.path.exists(modelo_path):
         print("🔽 Descargando modelo YOLOv5 desde Google Drive...")
-        url = "https://drive.google.com/uc?id=1AfHnuo2CagSP0PCn5x6R6a_FHXDiTUJE"
+        url = "https://drive.google.com/uc?id=1YkkXzRnnUn_AO7J7kw78lPppEb6-2g7G"
         gdown.download(url, modelo_path, quiet=False)
         print("✅ Modelo descargado.")
     return modelo_path
