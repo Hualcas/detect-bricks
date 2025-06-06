@@ -5,6 +5,7 @@ from PIL import Image
 from fpdf import FPDF
 import gdown
 import zipfile
+from ultralytics import YOLO  # ✅ Usamos YOLOv8
 
 # ---------------------- Modelo YOLOv5 -----------------------
 
@@ -21,8 +22,7 @@ def descargar_modelo():
 # Cargar modelo YOLOv5 directamente desde archivo
 def cargar_modelo():
     modelo_path = descargar_modelo()
-    modelo = torch.load(modelo_path, map_location=torch.device('cpu'))  # usa 'cuda' si quieres forzar GPU
-    modelo.eval()
+    modelo = YOLO(modelo_path)  # ✅ Carga directa con ultralytics
     return modelo
 
 # Cargar modelo global
@@ -32,8 +32,12 @@ modelo = cargar_modelo()
 
 def procesar_imagen(frame_array):
     img = Image.fromarray(frame_array).convert('RGB')
-    results = modelo(img)
-    predicciones = results.pandas().xyxy[0]['name'].tolist()
+    results = modelo.predict(img, verbose=False)  # ✅ Usamos .predict()
+    predicciones = []
+    if results and results[0].names:
+        names_dict = results[0].names
+        for r in results[0].boxes.cls.tolist():
+            predicciones.append(names_dict[int(r)])
     return predicciones
 
 # ---------------------- Descarga de imágenes -----------------------
