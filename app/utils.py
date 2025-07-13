@@ -79,7 +79,9 @@ def generar_pdf(monitoreo, id_reporte=None):
     path = os.path.join("app", "static", "reportes", filename)
     pdf.output(path)
 
-    return f"reportes/{filename}"
+    #return f"reportes/{filename}"
+    return f"static/reportes/{filename}"
+
 
 # ---------------------- Métricas dummy -----------------------
 
