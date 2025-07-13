@@ -94,11 +94,18 @@ def descargar_reporte(monitoreo_id):
     except DoesNotExist:
         return "❌ Monitoreo no encontrado", 404
 
-    pdf_path = os.path.join(os.path.dirname(__file__), 'static', monitoreo.pdf_path)
-    if not os.path.exists(pdf_path):
-        return f"No se encontró el archivo: {pdf_path}", 404
+    #pdf_path = os.path.join(os.path.dirname(__file__), 'static', monitoreo.pdf_path)
+    ruta_absoluta = os.path.join(os.getcwd(), 'app', monitoreo.pdf_path)
 
-    return send_file(pdf_path, as_attachment=True)
+    #if not os.path.exists(pdf_path):
+    #    return f"No se encontró el archivo: {pdf_path}", 404
+
+    #return send_file(pdf_path, as_attachment=True)
+    if not os.path.exists(ruta_absoluta):
+        return f"No se encontró el archivo: {ruta_absoluta}", 404
+
+    return send_file(ruta_absoluta, as_attachment=True)
+
 
 # -- ELIMINAR MONITOREO --
 @routes.route('/eliminar_monitoreo/<monitoreo_id>', methods=['POST'])
